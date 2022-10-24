@@ -29,7 +29,6 @@ public class BoardService {
         Board boardPS = boardRepository.findById(id);
         boardPS.setTitle(board.getTitle());
         boardPS.setContent(board.getContent());
-        boardPS.setAuthor(board.getAuthor());
         // 트랜젝션 종료시 자동으로 flush 되서 업데이트가 됨.
     }
 
