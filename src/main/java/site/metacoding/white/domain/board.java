@@ -22,7 +22,7 @@ public class Board {
     @Column(length = 1000)
     private String content;
     // FK가 만들어짐. user_id
-    @ManyToOne(fetch = FetchType.EAGER) // 객체끼리 관계를 결정해주는 어노테이션. Many = N , One = 1 => N대N, N대1, 1대1의 관계
     // @JoinColumn() 만들어지는 user_id를 임의의 값으로 지정해줄 수 있음 ex)userId
+    @ManyToOne(fetch = FetchType.LAZY) // 객체끼리 관계를 결정해주는 어노테이션. Many = N , One = 1 => N대N, N대1, 1대1의 관계
     private User user;
 }

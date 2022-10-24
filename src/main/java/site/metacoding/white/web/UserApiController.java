@@ -17,6 +17,7 @@ public class UserApiController {
     private final UserService userService;
     private final HttpSession session;
 
+    // JointDto
     @PostMapping("/join")
     public String save(@RequestBody User user) {
         userService.save(user);

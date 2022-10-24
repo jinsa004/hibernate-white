@@ -7,6 +7,9 @@ import lombok.RequiredArgsConstructor;
 import site.metacoding.white.domain.User;
 import site.metacoding.white.domain.UserRepository;
 
+// 트랜잭션 관리
+// DTO 변환해서 컨트롤러에게 돌려줘야함
+
 @RequiredArgsConstructor
 @Service
 public class UserService {
@@ -15,7 +18,7 @@ public class UserService {
 
     @Transactional // 트랜젝션을 붙이지 않으면 영속화 되어있는 객체가 flush가 안됨.
     public void save(User user) {
-        userRepository.save(user); // 트랜젝션 종료
+        userRepository.save(user); // 트랜잭션 종료
     }
 
     @Transactional(readOnly = true)
