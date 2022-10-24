@@ -15,7 +15,17 @@ public class UserService {
 
     @Transactional // 트랜젝션을 붙이지 않으면 영속화 되어있는 객체가 flush가 안됨.
     public void save(User user) {
-        userRepository.save(user);
-    }// 트랜젝션 종료
+        userRepository.save(user); // 트랜젝션 종료
+    }
+
+    @Transactional(readOnly = true)
+    public User login(User user) {
+        User userPS = userRepository.findByUsername(user);
+        if (userPS.getPassword().equals(user.getPassword())) {
+            return userPS;
+        } else {
+            throw new RuntimeException("아이디 혹은 패스워드가 잘못 입력되었습니다.");
+        }
+    }
 
 }
