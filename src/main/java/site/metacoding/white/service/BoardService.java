@@ -8,7 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import site.metacoding.white.domain.Board;
 import site.metacoding.white.domain.BoardRepository;
-import site.metacoding.white.domain.UserRepository;
 import site.metacoding.white.dto.BoardReqDto.BoardSaveReqDto;
 import site.metacoding.white.dto.BoardRespDto.BoardSaveRespDto;
 
