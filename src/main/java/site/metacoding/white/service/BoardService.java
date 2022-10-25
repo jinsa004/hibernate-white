@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import site.metacoding.white.domain.Board;
 import site.metacoding.white.domain.BoardRepository;
-import site.metacoding.white.dto.BoardReqDto.BoardSaveDto;
+import site.metacoding.white.dto.BoardReqDto.BoardSaveReqDto;
 
 @RequiredArgsConstructor
 @Service
@@ -17,11 +17,11 @@ public class BoardService {
     private final BoardRepository boardRepository;
 
     @Transactional
-    public void save(BoardSaveDto boardSaveDto) {
+    public void save(BoardSaveReqDto boardSaveReqDto) {
         Board board = new Board();
-        board.setTitle(boardSaveDto.getTitle());
-        board.setContent(boardSaveDto.getContent());
-        board.setUser(boardSaveDto.getUser());
+        board.setTitle(boardSaveReqDto.getTitle());
+        board.setContent(boardSaveReqDto.getContent());
+        board.setUser(boardSaveReqDto.getUser());
         boardRepository.save(board);
     }
 

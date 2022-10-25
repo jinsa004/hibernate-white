@@ -2,6 +2,7 @@ package site.metacoding.white.dto;
 
 import lombok.Getter;
 import lombok.Setter;
+import site.metacoding.white.domain.User;
 
 @Setter
 @Getter
@@ -9,21 +10,20 @@ public class UserReqDto {
 
     @Setter
     @Getter
-    public static class JoinDto {
+    public static class JoinReqDto { // 로그인 전 인증관련 로직들은 전부 다 앞에 엔티티 안붙임. POST /user -> /join
         private String username;
         private String password;
 
-        // 클라이언트한테 받는게 아님!!
-        @Setter
-        @Getter
-        public class ServiceDto {
-
+        // 요청의 DTO는 toEntity로 처리한다.(규칙)
+        public User toEntity() {
+            return User.builder().username(username).password(password).build();
         }
+    }
 
-        private ServiceDto serviceDto;
-
-        public void newInstance() {
-            serviceDto = new ServiceDto();
-        }
+    @Getter
+    @Setter
+    public static class LoginReqDto {
+        private String username;
+        private String password;
     }
 }

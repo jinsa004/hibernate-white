@@ -13,14 +13,15 @@ public class UserRepository {
     // DI
     private final EntityManager em;
 
-    public void save(User user) {
+    public User save(User user) {
         // Persistence를 Context에 영속화 시키기 -> 자동 flush (트랜젝션 종료시)
         em.persist(user);
+        return user;
     }
 
-    public User findByUsername(User user) {
+    public User findByUsername(String username) {
         User userPS = em.createQuery("select u from User u where u.username = :username", User.class)
-                .setParameter("username", user.getUsername())
+                .setParameter("username", username)
                 .getSingleResult();
         return userPS;
     }
