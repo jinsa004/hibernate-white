@@ -30,8 +30,8 @@ public class UserApiController {
 
     @PostMapping("/login")
     public ResponseDto<?> login(@RequestBody LoginReqDto loginReqDto) {
-        SessionUser principal = userService.login(loginReqDto);
-        session.setAttribute("principal", principal);
-        return new ResponseDto<>(1, "ok", principal);
+        SessionUser sessionUser = userService.login(loginReqDto);
+        session.setAttribute("sessionUser", sessionUser);
+        return new ResponseDto<>(1, "ok", sessionUser);
     }
 }

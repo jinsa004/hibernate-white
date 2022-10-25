@@ -8,7 +8,9 @@ import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import site.metacoding.white.domain.Board;
 import site.metacoding.white.domain.BoardRepository;
+import site.metacoding.white.domain.UserRepository;
 import site.metacoding.white.dto.BoardReqDto.BoardSaveReqDto;
+import site.metacoding.white.dto.BoardRespDto.BoardSaveRespDto;
 
 @RequiredArgsConstructor
 @Service
@@ -17,12 +19,14 @@ public class BoardService {
     private final BoardRepository boardRepository;
 
     @Transactional
-    public void save(BoardSaveReqDto boardSaveReqDto) {
-        Board board = new Board();
-        board.setTitle(boardSaveReqDto.getTitle());
-        board.setContent(boardSaveReqDto.getContent());
-        board.setUser(boardSaveReqDto.getUser());
-        boardRepository.save(board);
+    public BoardSaveRespDto save(BoardSaveReqDto boardSaveReqDto) {
+        // 핵심 로직
+        Board boardPS = boardRepository.save(boardSaveReqDto.toEntity());
+
+        // DTO 전환
+        BoardSaveRespDto boardSaveRespDto = new BoardSaveRespDto(boardPS);
+
+        return boardSaveRespDto;
     }
 
     @Transactional(readOnly = true)
@@ -37,8 +41,7 @@ public class BoardService {
     @Transactional
     public void update(Long id, Board board) {
         Board boardPS = boardRepository.findById(id);
-        boardPS.setTitle(board.getTitle());
-        boardPS.setContent(board.getContent());
+        boardPS.update(board.getTitle(), board.getContent());
         // 트랜젝션 종료시 자동으로 flush 되서 업데이트가 됨.
     }
 

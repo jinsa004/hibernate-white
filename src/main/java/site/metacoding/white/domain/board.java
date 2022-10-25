@@ -8,10 +8,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
 
-@Setter
+@NoArgsConstructor
 @Getter
 @Entity
 public class Board {
@@ -25,4 +26,19 @@ public class Board {
     // @JoinColumn() 만들어지는 user_id를 임의의 값으로 지정해줄 수 있음 ex)userId
     @ManyToOne(fetch = FetchType.LAZY) // 객체끼리 관계를 결정해주는 어노테이션. Many = N , One = 1 => N대N, N대1, 1대1의 관계
     private User user;
+
+    @Builder
+    public Board(Long id, String title, String content, User user) {
+        this.id = id;
+        this.title = title;
+        this.content = content;
+        this.user = user;
+    }
+
+    // 변경하는 코드는 의미있게 메서드로 구현
+    public void update(String title, String content) {
+        this.title = title;
+        this.content = content;
+    }
+
 }
