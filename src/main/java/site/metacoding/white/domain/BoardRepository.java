@@ -20,13 +20,15 @@ public class BoardRepository {
         return board;
     }
 
-    public Optional<Board> findById(Long id) {
-        // JPQL 문법 createQuery를 사용해서 쿼리문을 짤땐 entity 파일명에 맞춰서
-        Optional<Board> boardOP = Optional
-                .ofNullable(em.createQuery("select b from Board b where b.id=:id", Board.class)
-                        .setParameter("id", id)
-                        .getSingleResult());
-        return boardOP;
+    public Optional<Board> findById(Long id) {// JPQL 문법 createQuery를 사용해서 쿼리문을 짤땐 entity 파일명에 맞춰서
+        try {
+            Optional<Board> boardOP = Optional.of(em.createQuery("select b from Board b where b.id=:id", Board.class)
+                    .setParameter("id", id)
+                    .getSingleResult());
+            return boardOP;
+        } catch (Exception e) {
+            return Optional.empty();
+        }
     }
 
     public void deleteById(Long id) {

@@ -77,6 +77,11 @@ public class BoardService {
 
     @Transactional
     public void deleteById(Long id) {
-        boardRepository.deleteById(id);
+        Optional<Board> boardOP = boardRepository.findById(id);
+        if (boardOP.isPresent()) {
+            boardRepository.deleteById(id);
+        } else {
+            throw new RuntimeException("해당" + id + "로 삭제를 할 수 없습니다.");
+        }
     }
 }
