@@ -11,9 +11,11 @@ import lombok.RequiredArgsConstructor;
 import site.metacoding.white.domain.Board;
 import site.metacoding.white.domain.BoardRepository;
 import site.metacoding.white.dto.BoardReqDto.BoardSaveReqDto;
+import site.metacoding.white.dto.BoardReqDto.BoardUpdateReqDto;
 import site.metacoding.white.dto.BoardRespDto.BoardAllRespDto;
 import site.metacoding.white.dto.BoardRespDto.BoardDetailRespDto;
 import site.metacoding.white.dto.BoardRespDto.BoardSaveRespDto;
+import site.metacoding.white.dto.BoardRespDto.BoardUpdateRespDto;
 
 @RequiredArgsConstructor
 @Service
@@ -34,9 +36,9 @@ public class BoardService {
 
     @Transactional(readOnly = true)
     public BoardDetailRespDto findById(Long id) {
-        // Board boardPS = boardRepository.findById(id).orElseThrow(() -> {
-        // new RuntimeException("해당" + id + "로 상세보기를 할 수 없습니다.");
-        // });
+        // Board boardPS = boardRepository.findById(id).orElseThrow(() ->
+        // new RuntimeException("해당" + id + "로 상세보기를 할 수 없습니다.")
+        // );
         Optional<Board> boardOP = boardRepository.findById(id);
         if (boardOP.isPresent()) {
             BoardDetailRespDto boardDetailRespDto = new BoardDetailRespDto(boardOP.get());
@@ -47,10 +49,13 @@ public class BoardService {
     }
 
     @Transactional
-    public void update(Long id, Board board) {
+    public BoardUpdateRespDto update(BoardUpdateReqDto boardUpdateReqDto) {
+        Long id = boardUpdateReqDto.getId();
         Optional<Board> boardOP = boardRepository.findById(id);
         if (boardOP.isPresent()) {
-            boardOP.get().update(board.getTitle(), board.getContent());
+            Board boardPS = boardOP.get();
+            boardPS.update(boardUpdateReqDto.getTitle(), boardUpdateReqDto.getContent());
+            return new BoardUpdateRespDto(boardPS);
         } else {
             throw new RuntimeException("해당" + id + "로 업데이트를 할 수 없습니다.");
         }

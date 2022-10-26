@@ -72,7 +72,6 @@ public class BoardRespDto {
     public static class BoardAllRespDto {
         private Long id;
         private String title;
-        private String content;
         private UserDto user;
 
         @Getter
@@ -90,8 +89,34 @@ public class BoardRespDto {
         public BoardAllRespDto(Board board) {
             this.id = board.getId();
             this.title = board.getTitle();
+            this.user = new UserDto(board.getUser());
+        }
+    }
+
+    @Getter
+    @Setter
+    public static class BoardUpdateRespDto {
+        private Long id;
+        private String title;
+        private String content;
+        private UserDto user;
+
+        @Getter
+        @Setter
+        public static class UserDto {
+            private Long id;
+
+            public UserDto(User user) { // LAZY 로딩이 지금 실행됨
+                this.id = user.getId();
+            }
+        }
+
+        public BoardUpdateRespDto(Board board) {
+            this.id = board.getId();
+            this.title = board.getTitle();
             this.content = board.getContent();
             this.user = new UserDto(board.getUser());
         }
     }
+
 }
