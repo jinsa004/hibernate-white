@@ -1,5 +1,8 @@
 package site.metacoding.white.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -7,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -26,6 +30,10 @@ public class Board {
     // @JoinColumn() 만들어지는 user_id를 임의의 값으로 지정해줄 수 있음 ex)userId
     @ManyToOne(fetch = FetchType.LAZY) // 객체끼리 관계를 결정해주는 어노테이션. Many = N , One = 1 => N대N, N대1, 1대1의 관계
     private User user;
+
+    // 조회를 위해서만 필요함
+    @OneToMany(mappedBy = "board", fetch = FetchType.LAZY) // 하나의 게시글에 많은 댓글이 가능해서 OneToMany의 기본 전략은 LAZY이다.
+    private List<Comment> comments = new ArrayList<>();
 
     @Builder
     public Board(Long id, String title, String content, User user) {
