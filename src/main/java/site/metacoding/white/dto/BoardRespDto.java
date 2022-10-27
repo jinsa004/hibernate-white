@@ -1,22 +1,27 @@
 package site.metacoding.white.dto;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import lombok.Getter;
 import lombok.Setter;
 import site.metacoding.white.domain.Board;
+import site.metacoding.white.domain.Comment;
 import site.metacoding.white.domain.User;
 
 public class BoardRespDto {
 
-    @Getter
     @Setter
+    @Getter
     public static class BoardSaveRespDto {
         private Long id;
         private String title;
         private String content;
         private UserDto user;
 
-        @Getter
         @Setter
+        @Getter
         public static class UserDto {
             private Long id;
             private String username;
@@ -33,27 +38,52 @@ public class BoardRespDto {
             this.content = board.getContent();
             this.user = new UserDto(board.getUser());
         }
-
-        // 메소드를 만들면 한번에 끝나게 해결해보기
     }
 
-    @Getter
     @Setter
+    @Getter
     public static class BoardDetailRespDto {
         private Long id;
         private String title;
         private String content;
-        private UserDto user;
+        private BoardUserDto user;
+        private List<CommentDto> comment = new ArrayList<>();
 
-        @Getter
         @Setter
-        public static class UserDto {
+        @Getter
+        public static class BoardUserDto {
             private Long id;
             private String username;
 
-            public UserDto(User user) { // LAZY 로딩이 지금 실행됨
-                this.id = user.getId();
-                this.username = user.getUsername();
+            public BoardUserDto(User user) {
+                this.id = user.getId(); // Lazy
+                this.username = user.getUsername(); // Lazy
+            }
+        }
+
+        @Setter
+        @Getter
+        public static class CommentDto {
+            private Long id;
+            private String content;
+            private CommentUserDto user;
+
+            public CommentDto(Comment comment) {
+                this.id = comment.getId();
+                this.content = comment.getContent();
+                this.user = new CommentUserDto(comment.getUser());
+            }
+
+            @Setter
+            @Getter
+            public static class CommentUserDto {
+                private Long id;
+                private String username;
+
+                public CommentUserDto(User user) {
+                    this.id = user.getId();// LAZY
+                    this.username = user.getUsername();// LAZY
+                }
             }
         }
 
@@ -61,26 +91,27 @@ public class BoardRespDto {
             this.id = board.getId();
             this.title = board.getTitle();
             this.content = board.getContent();
-            this.user = new UserDto(board.getUser());
+            this.user = new BoardUserDto(board.getUser());
+            // List<CommentDto> <---- List<Comment>
+            this.comment = board.getComments().stream().map((comment) -> new CommentDto(comment))
+                    .collect(Collectors.toList());
         }
-
-        // 메소드를 만들면 한번에 끝나게 해결해보기
     }
 
-    @Getter
     @Setter
+    @Getter
     public static class BoardAllRespDto {
         private Long id;
         private String title;
         private UserDto user;
 
-        @Getter
         @Setter
+        @Getter
         public static class UserDto {
             private Long id;
             private String username;
 
-            public UserDto(User user) { // LAZY 로딩이 지금 실행됨
+            public UserDto(User user) {
                 this.id = user.getId();
                 this.username = user.getUsername();
             }
@@ -93,20 +124,20 @@ public class BoardRespDto {
         }
     }
 
-    @Getter
     @Setter
+    @Getter
     public static class BoardUpdateRespDto {
         private Long id;
         private String title;
         private String content;
         private UserDto user;
 
-        @Getter
         @Setter
+        @Getter
         public static class UserDto {
             private Long id;
 
-            public UserDto(User user) { // LAZY 로딩이 지금 실행됨
+            public UserDto(User user) {
                 this.id = user.getId();
             }
         }
