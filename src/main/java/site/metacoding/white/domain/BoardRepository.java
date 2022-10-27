@@ -22,7 +22,9 @@ public class BoardRepository {
 
     public Optional<Board> findById(Long id) {// JPQL 문법 createQuery를 사용해서 쿼리문을 짤땐 entity 파일명에 맞춰서
         try {
-            Optional<Board> boardOP = Optional.of(em.createQuery("select b from Board b where b.id=:id", Board.class)
+            Optional<Board> boardOP = Optional.of(em
+                    .createQuery("select b from Board b join fetch b.user u join fetch b.comments c where b.id=:id",
+                            Board.class)
                     .setParameter("id", id)
                     .getSingleResult());
             return boardOP;
