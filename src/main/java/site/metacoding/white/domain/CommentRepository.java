@@ -29,7 +29,7 @@ public class CommentRepository {
     public Optional<Comment> findById(Long id) {
         try {
             Optional<Comment> commentOP = Optional
-                    .of(em.createQuery("select c from Comment c where e.id=:id", Comment.class)
+                    .of(em.createQuery("select c from Comment c where c.id=:id", Comment.class)
                             .setParameter("id", id)
                             .getSingleResult());
             return commentOP;

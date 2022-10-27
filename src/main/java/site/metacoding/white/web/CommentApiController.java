@@ -32,4 +32,5 @@ public class CommentApiController {
         commentService.deleteById(id);
         return new ResponseDto<>(1, "성공", null);
     }
+
 }
