@@ -20,7 +20,6 @@ public class CommentReqDto {
                     .content(content)
                     .board(board)
                     .user(sessionUser.toEntity())
-                    .board(board)
                     .build();
         }
     }
