@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -22,6 +21,8 @@ import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.JsonPath;
 
 import site.metacoding.white.dto.UserReqDto.JoinReqDto;
+import site.metacoding.white.dto.UserReqDto.LoginReqDto;
+import site.metacoding.white.service.UserService;
 
 @ActiveProfiles("test")
 // @Transactional // 통합테스트에서 RANDOM_PORT를 사용하면 새로운 스레드로 돌기 때문에 rollback 무의미
@@ -34,8 +35,10 @@ public class UserApiControllerTest {
 
     @Autowired
     private TestRestTemplate rt; // HttpUrl ~ conn으로 커넥션 연결하던 걸 대체
-
+    @Autowired
     private static ObjectMapper om; // json기능 대체 메세지컨버터가 om을 이용함
+    @Autowired
+    private UserService userService;
     private static HttpHeaders headers;
 
     @BeforeAll // BeforeAll은 static으로 만들어주기 (규칙)
@@ -45,12 +48,12 @@ public class UserApiControllerTest {
         headers.setContentType(MediaType.APPLICATION_JSON);
     }
 
-    @Order(1)
+    // @Order(1)
     @Test
     public void join_test() throws JsonProcessingException {
         // given
         JoinReqDto joinReqDto = new JoinReqDto();
-        joinReqDto.setUsername("hoho");
+        joinReqDto.setUsername("very");
         joinReqDto.setPassword("1234");
 
         String body = om.writeValueAsString(joinReqDto);
@@ -68,7 +71,7 @@ public class UserApiControllerTest {
         Assertions.assertThat(code).isEqualTo(1);
     }
 
-    @Order(2)
+    // @Order(2)
     @Test
     public void join_test2() throws JsonProcessingException {
         // given
@@ -92,6 +95,35 @@ public class UserApiControllerTest {
         // System.out.println(dc.jsonString());
         Integer code = dc.read("$.code");
         Assertions.assertThat(code).isEqualTo(1);
+    }
+
+    @Test
+    public void login_test() throws JsonProcessingException {
+        // data init
+        JoinReqDto joinReqDto = new JoinReqDto();
+        joinReqDto.setUsername("very");
+        joinReqDto.setPassword("1234");
+        userService.save(joinReqDto);
+
+        // given
+        LoginReqDto loginReqDto = new LoginReqDto();
+        loginReqDto.setUsername("very");
+        loginReqDto.setPassword("1234");
+
+        String body = om.writeValueAsString(loginReqDto);
+        System.out.println("디버그 : " + body);
+        // when
+        HttpEntity<String> request = new HttpEntity<>(body, headers);
+        ResponseEntity<String> response = rt.exchange("/login", HttpMethod.POST,
+                request, String.class);
+        System.out.println("디버그 : " + response.getBody());
+
+        // then
+        DocumentContext dc = JsonPath.parse(response.getBody());
+        Integer code = dc.read("$.code");
+        String username = dc.read("$.data.username");
+        Assertions.assertThat(code).isEqualTo(1);
+        Assertions.assertThat(username).isEqualTo("very");
     }
 
 }
