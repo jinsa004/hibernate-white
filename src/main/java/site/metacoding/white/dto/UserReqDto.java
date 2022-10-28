@@ -26,4 +26,12 @@ public class UserReqDto {
         private String username;
         private String password;
     }
+
+    @Getter
+    @Setter
+    public static class UserUpdateReqDto {
+        private Long id;
+        private String username;
+        private String password;
+    }
 }

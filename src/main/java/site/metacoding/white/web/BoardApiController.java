@@ -45,8 +45,8 @@ public class BoardApiController {
     }
 
     @GetMapping("/board")
-    public List<BoardAllRespDto> findAll() {
-        return boardService.findAll();
+    public ResponseDto<?> findAll() {
+        return new ResponseDto<>(1, "성공", boardService.findAll());
     }
 
     @PutMapping("/board/{id}")
