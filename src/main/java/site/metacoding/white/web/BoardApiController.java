@@ -1,7 +1,5 @@
 package site.metacoding.white.web;
 
-import java.util.List;
-
 import javax.servlet.http.HttpSession;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
 import site.metacoding.white.dto.BoardReqDto.BoardSaveReqDto;
 import site.metacoding.white.dto.BoardReqDto.BoardUpdateReqDto;
-import site.metacoding.white.dto.BoardRespDto.BoardAllRespDto;
 import site.metacoding.white.dto.BoardRespDto.BoardSaveRespDto;
 import site.metacoding.white.dto.ResponseDto;
 import site.metacoding.white.dto.SessionUser;

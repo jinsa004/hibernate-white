@@ -1,5 +1,9 @@
 package site.metacoding.white.web;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -104,13 +108,13 @@ public class BoardApiControllerTest {
 
         // when
         ResultActions resultActions = mvc
-                .perform(MockMvcRequestBuilders.get("/board/" + id).accept(APPLICATION_JSON));
+                .perform(get("/board/" + id).accept(APPLICATION_JSON));
 
         // then
         MvcResult mvcResult = resultActions.andReturn();
         // System.out.println("디버그 : " + mvcResult.getResponse().getContentAsString());
-        resultActions.andExpect(MockMvcResultMatchers.status().isOk());
-        resultActions.andExpect(MockMvcResultMatchers.jsonPath("$.data.title").value("스프링1강"));
+        resultActions.andExpect(status().isOk());
+        resultActions.andExpect(jsonPath("$.data.title").value("스프링1강"));
     }
 
     @Test
@@ -189,5 +193,15 @@ public class BoardApiControllerTest {
         // System.out.println("디버그 : " + mvcResult.getResponse().getContentAsString());
         resultActions.andExpect(MockMvcResultMatchers.status().isOk());
         resultActions.andExpect(MockMvcResultMatchers.jsonPath("$.code").value(1L));
+    }
+
+    @Test
+    public void _test() {
+        // given
+
+        // when
+
+        // then
+
     }
 }

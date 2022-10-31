@@ -9,7 +9,6 @@ import site.metacoding.white.domain.UserRepository;
 import site.metacoding.white.dto.SessionUser;
 import site.metacoding.white.dto.UserReqDto.JoinReqDto;
 import site.metacoding.white.dto.UserReqDto.LoginReqDto;
-import site.metacoding.white.dto.UserReqDto.UserUpdateReqDto;
 import site.metacoding.white.dto.UserRespDto.JoinRespDto;
 import site.metacoding.white.util.SHA256;
 
