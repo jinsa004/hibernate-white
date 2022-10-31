@@ -30,7 +30,7 @@ public class BoardApiController {
         return new ResponseDto<>(1, "성공", boardService.findById(id));
     }
 
-    @PostMapping("/board")
+    @PostMapping("/s/board")
     public ResponseDto<?> save(@RequestBody BoardSaveReqDto boardSaveReqDto) {
         SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
         if (sessionUser == null) {
@@ -46,7 +46,7 @@ public class BoardApiController {
         return new ResponseDto<>(1, "성공", boardService.findAll());
     }
 
-    @PutMapping("/board/{id}")
+    @PutMapping("/s/board/{id}")
     public ResponseDto<?> update(@PathVariable Long id, @RequestBody BoardUpdateReqDto boardUpdateReqDto) {
         SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
         if (sessionUser == null) {
@@ -56,13 +56,10 @@ public class BoardApiController {
         return new ResponseDto<>(1, "성공", boardService.update(boardUpdateReqDto));
     }
 
-    @DeleteMapping("/board/{id}")
+    @DeleteMapping("/s/board/{id}")
     public ResponseDto<?> deleteById(@PathVariable Long id) {
         SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
-        if (sessionUser == null) {
-            throw new RuntimeException("로그인을 진행해주세요.");
-        }
-        boardService.deleteById(id);
+        boardService.deleteById(id, sessionUser.getId());
         return new ResponseDto<>(1, "성공", null);
     }
 
